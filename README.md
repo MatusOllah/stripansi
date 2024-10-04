@@ -1,5 +1,7 @@
 # stripansi
 
+[![Go Reference](https://pkg.go.dev/badge/github.com/MatusOllah/stripansi.svg)](https://pkg.go.dev/github.com/MatusOllah/stripansi) [![Go Report Card](https://goreportcard.com/badge/github.com/MatusOllah/stripansi)](https://goreportcard.com/report/github.com/MatusOllah/stripansi)
+
 **stripansi** is a Go package for removing [ANSI escape sequences](https://en.wikipedia.org/wiki/ANSI_escape_code).
 
 ## Basic Usage
