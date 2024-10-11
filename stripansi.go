@@ -24,7 +24,7 @@ func String(s string) string {
 	return re.ReplaceAllString(s, "")
 }
 
-// Writer wraps an [io.Writer] and removes ANSI sequences from its output.
+// Writer wraps an [io.Writer] and removes ANSI escape sequences from its output.
 type Writer struct {
 	w  io.Writer
 	mu sync.Mutex
@@ -41,4 +41,31 @@ func (w *Writer) Write(p []byte) (n int, err error) {
 	defer w.mu.Unlock()
 
 	return w.w.Write(Bytes(p))
+}
+
+// Reader wraps an [io.Reader] and removes ANSI escape sequences from its output.
+type Reader struct {
+	r  io.Reader
+	mu sync.Mutex
+}
+
+// NewReader creates a new [Reader].
+func NewReader(r io.Reader) *Reader {
+	return &Reader{r: r}
+}
+
+// Read reads from the underlying reader and removes ANSI escape sequences.
+func (r *Reader) Read(p []byte) (n int, err error) {
+	r.mu.Lock()
+	defer r.mu.Unlock()
+
+	n, err = r.r.Read(p)
+	if err != nil {
+		return n, err
+	}
+
+	cleaned := Bytes(p[:n])
+	copy(p, cleaned)
+
+	return len(cleaned), nil
 }
