@@ -12,6 +12,7 @@ package main
 import (
     "strings"
     "fmt"
+    "io"
     "os"
 
     "github.com/MatusOllah/stripansi"
